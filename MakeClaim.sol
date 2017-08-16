@@ -1,4 +1,4 @@
-pragma solidity ^0.4.0;
+pragma solidity ^0.4.11;
 
 contract MakeClaim {
 
@@ -9,10 +9,7 @@ contract MakeClaim {
 
     mapping(address => SSP[]) publishers;
 
-    modifier onlyBy(address _account) {
-        require(msg.sender == _account);
-        _;
-    }
+    modifier onlyBy(address _account) { require(msg.sender == _account); _; }
 
     function MakeClaim() {
         publisher = msg.sender;
