@@ -7,7 +7,7 @@ contract MakeClaim {
         bool approved;
     }
 
-    mapping(address => SSP[]) protected publishers;
+    mapping(address => SSP[]) publishers;
 
     modifier onlyBy(address _account) {
         require(msg.sender == _account);
@@ -16,13 +16,13 @@ contract MakeClaim {
 
     function MakeClaim() {
         publisher = msg.sender;
-        SSPs = publishers[publisher];       
+        SSPs = publishers[publisher];
     }
 
     function addSSP(address ssp_address) onlyBy(publisher) {
 
         for(uint i = 0; i < SSPs.length; i++) {
-            if(SSPs[i].address == ssp_address) {
+            if(SSPs[i].public_address == ssp_address) {
                 require(false); // Stop execution if the SSP already exists
             }
         }
@@ -44,14 +44,14 @@ contract MakeClaim {
     function approvePublisher(address _publisher) {
         ssps = publishers[_publisher];
         for(uint i = 0; i < ssps.length; i++) {
-            if(msg.sender = ssps[i].address) ssps[i].approved = true;
+            if(msg.sender = ssps[i].public_address) ssps[i].approved = true;
         }
     }
 
     function deletePublisher(address _publisher) {
         ssps = publishers[_publisher];
         for(uint i = 0; i < ssps.length; i++) {
-            if(msg.sender = ssps[i].address) {
+            if(msg.sender = ssps[i].public_address) {
                 delete ssps[i];
                 ssps.length--;
             }
@@ -60,7 +60,7 @@ contract MakeClaim {
 
     function failOrGetIndexByAddress(address ssp_address) internal {
         for(uint i = 0; i < SSPs.length; i++) {
-            if(SSPs[i].address == ssp_address) return i;
+            if(SSPs[i].public_address == ssp_address) return i;
         }
         require(false);
     }
