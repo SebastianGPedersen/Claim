@@ -30,27 +30,27 @@ contract MakeClaim {
         publishers[publisher].push(SSP({
             name: ssp_name,
             public_address: ssp_address,
-            approved: 0
+            approved: false
         }));
     }
 
     function deleteSSP(ssp_address) onlyBy(publisher) {
         
         uint ssp_index = failOrGetIndexByAddress(ssp_address);
-        delete SSPs[ssp_index];
-        SSPs.length--;
+        delete publishers[publisher][ssp_index];
+        publishers[publisher].length--;
     }
 
     function approvePublisher(address _publisher) {
         ssps = publishers[_publisher];
-        for(uint i = 0; i < ssps; i++) {
+        for(uint i = 0; i < ssps.length; i++) {
             if(msg.sender = ssps[i].address) ssps[i].approved = true;
         }
     }
 
     function deletePublisher(address _publisher) {
         ssps = publishers[_publisher];
-        for(uint i = 0; i < ssps; i++) {
+        for(uint i = 0; i < ssps.length; i++) {
             if(msg.sender = ssps[i].address) {
                 delete ssps[i];
                 ssps.length--;
