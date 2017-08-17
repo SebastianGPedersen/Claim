@@ -7,7 +7,7 @@ contract Claim {
         bool approved;
     }
 	address[] array;
-	int ArrayLength=0;
+	uint ArrayLength=0;
     mapping(address => SSP[]) whitelist;
 
     function publisher_add_supply_side_partner(address ssp) {
@@ -24,9 +24,9 @@ contract Claim {
         
         //Adds a publisher to the array, if doesn't exist there.
 		bool t=true;
-		for(int i=0;i<=ArrayLength;i++)
+		for(uint j=0;j<=ArrayLength;j++)
 		{
-		  if(array(i)==publisher)
+		  if(array[j]==publisher)
 		  {
 		  t=false;
 		  }
@@ -75,13 +75,17 @@ contract Claim {
 
 	//*****
 	//variable final is a long string with all the addresses
-	function UpdatePublisher() return (string){
-	for(int x=0; x<=ArrayLength; x++)
+	function UpdatePublisher() returns (string){
+	    bytes storage final1;
+	
+	    uint f=0;
+	for(uint x=0; x<=ArrayLength; x++)
 	{
-    for(int i=0; i<=whitelist[array[x]].length; i++)
+    for(uint i=0; i<=whitelist[array[x]].length; i++)
     {
         if(whitelist[array[x]][i].public_address==msg.sender && whitelist[array[x]][i].approved)
         {
+            // In the loop we have 42, which should be the length of address in bytes
 	    	bytes memory b = new bytes(42);
             for (uint r = 0; r < 50; r++)
 	        {
@@ -90,15 +94,17 @@ contract Claim {
 	             else
 	                 {b[r]="/";}
             }
-	        f+=50;
-	        for(uint r = 0; r < 50; r++)
-	        {
-	            final[f]=b[r];
-	            f++;
-	        }
+            bytes memory b_i_bytes = bytes(b);
+            string memory final_length = new string(b_i_bytes.length);
+            for(uint y =f; f <= final1.length+b.length;f++){
+             final1[f]=b[f-final1.length];
+            }
+            
+    
         }
     }
 	}
-	return final;
+
+	return string(final1);
     }
 }
