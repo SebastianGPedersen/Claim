@@ -2,7 +2,7 @@ mapping (address => SSP[]) private Publishers_for_SSP;
     
     function UpdatePublisher(address publisherKey) {
         int i=0;
-    while(i<=whitelist.length)
+    for(int i=0; i<=whitelist.length; i++)
     {
         if(whitelist[i].public_address==msg.sender && whitelist[i].approved)
         {
